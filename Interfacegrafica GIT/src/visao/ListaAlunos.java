@@ -13,19 +13,21 @@ import modelo.Aluno;
 public class ListaAlunos extends javax.swing.JFrame {
 
     private ControleAluno controleAluno;
-    
-    public ListaAlunos(ControleAluno controleAluno) {      
+    /**
+     * Creates new form ListaAlunos
+     */
+    public ListaAlunos(ControleAluno controleAluno) {
         initComponents();
         setLocationRelativeTo(null);
         this.controleAluno = controleAluno;
         setarDadosTabela();
     }
 
-    private void setarDadosTabela() {
-        String[][] dados = new String[ controleAluno.getAlunos().size()][4];
+    public void setarDadosTabela() {
+        String[][] dados = new String[controleAluno.getAlunos().size()][4];
         String[] colunas = new String[]{"Nome", "CPF", "E-mail", "Curso"};
 
-        int linha = 0;
+        int linha =0;
         for (Aluno aluno : controleAluno.getAlunos()) {
             dados[linha][0] = aluno.getNome();
             dados[linha][1] = aluno.getCpf();
@@ -47,6 +49,8 @@ public class ListaAlunos extends javax.swing.JFrame {
         jTableAlunos.setModel(model);
 
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -157,40 +161,31 @@ public class ListaAlunos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTableAlunosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAlunosMouseClicked
-        if (evt.getClickCount() > 1) {
+        if (evt.getClickCount() > 1 && jTableAlunos.getSelectedRow()>=0) {
             int linha = jTableAlunos.getSelectedRow();
-            String nome = jTableAlunos.getValueAt(linha, 0).toString();
-            String cpf = jTableAlunos.getValueAt(linha, 1).toString();
-            String email = jTableAlunos.getValueAt(linha, 2).toString();
-            String curso = jTableAlunos.getValueAt(linha, 3).toString();
-
-            TelaCadastroAluno tela = new TelaCadastroAluno(controleAluno, nome, cpf, email, curso, "", LocalDate.now());
-            tela.setVisible(true);
+            controleAluno.abrirTelaCadastroParaEdicao(linha);
         }
     }//GEN-LAST:event_jTableAlunosMouseClicked
 
     private void jB_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_EditarActionPerformed
         int linha = jTableAlunos.getSelectedRow();
-        String nome = jTableAlunos.getValueAt(linha, 0).toString();
-        String cpf = jTableAlunos.getValueAt(linha, 1).toString();
-        String email = jTableAlunos.getValueAt(linha, 2).toString();
-        String curso = jTableAlunos.getValueAt(linha, 3).toString();
-
-        TelaCadastroAluno tela = new TelaCadastroAluno(controleAluno, nome, cpf, email, curso,  "", LocalDate.now());
-        tela.setVisible(true);
+        if(linha>=0){
+            controleAluno.abrirTelaCadastroParaEdicao(linha);
+        }
     }//GEN-LAST:event_jB_EditarActionPerformed
 
     private void jB_AdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AdicionarActionPerformed
         DefaultTableModel model = (DefaultTableModel) jTableAlunos.getModel();
-        TelaCadastroAluno tela = new TelaCadastroAluno(controleAluno);
-        tela.setVisible(true);
         model.addRow(new Object[4]);
+        controleAluno.abrirTelaCadastro();
     }//GEN-LAST:event_jB_AdicionarActionPerformed
 
     private void jB_RemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_RemoverActionPerformed
-        if(jTableAlunos.getSelectedRow() >= 0){
+        int posicao = jTableAlunos.getSelectedRow();
+        if(posicao >= 0){
+            controleAluno.removerAluno(posicao);
             DefaultTableModel model = (DefaultTableModel) jTableAlunos.getModel();
-            model.removeRow(jTableAlunos.getSelectedRow());
+            model.removeRow(posicao);
         }
     }//GEN-LAST:event_jB_RemoverActionPerformed
 

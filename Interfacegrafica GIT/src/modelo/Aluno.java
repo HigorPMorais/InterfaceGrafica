@@ -22,7 +22,6 @@ public class Aluno {
         this.dataNascimento = dataNascimento;
     }
 
-    
     public String getNome() {
         return nome;
     }
@@ -70,6 +69,6 @@ public class Aluno {
     public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
-
+    
     
 }

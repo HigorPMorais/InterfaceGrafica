@@ -12,18 +12,18 @@ public class TelaCadastroAluno extends javax.swing.JFrame {
     private String curso;
     private LocalDate dataNascimento;
     private ControleAluno controleAluno;
+    private boolean editar;
 
     public TelaCadastroAluno(ControleAluno controleAluno) {
         initComponents();
         this.controleAluno = controleAluno;
-        
         buttonGroup1.add(jRB_Masculino);
         buttonGroup1.add(jRB_Feminino);
         buttonGroup1.clearSelection();
         setLocationRelativeTo(null);
     }
 
-    public TelaCadastroAluno(ControleAluno controleAluno, String nome, String cpf, String email, String curso, String genero, LocalDate dataNascimento) {
+    public TelaCadastroAluno(ControleAluno controleAluno, ListaAlunos telaListaAlunos, String nome, String cpf, String email, String curso, String genero, LocalDate dataNascimento) {
         this(controleAluno);
         this.nome = nome;
         this.cpf = cpf;
@@ -31,6 +31,7 @@ public class TelaCadastroAluno extends javax.swing.JFrame {
         this.genero = genero;
         this.curso = curso;
         this.dataNascimento = dataNascimento;
+        editar = true;
         setarDadosTela();
     }
 
@@ -44,7 +45,7 @@ public class TelaCadastroAluno extends javax.swing.JFrame {
         } else if (this.genero.equalsIgnoreCase("Feminino")) {
             jRB_Feminino.setSelected(true);
         }
-        
+
         if (dataNascimento != null) {
             jS_Dia.setValue(dataNascimento.getDayOfMonth());
             jS_Mes.setValue(dataNascimento.getMonthValue());
@@ -89,7 +90,6 @@ public class TelaCadastroAluno extends javax.swing.JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
-        jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -122,11 +122,6 @@ public class TelaCadastroAluno extends javax.swing.JFrame {
         jLabel2.setText("Nome:");
 
         jTF_Nome.setToolTipText("");
-        jTF_Nome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTF_NomeActionPerformed(evt);
-            }
-        });
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("CPF:");
@@ -243,7 +238,7 @@ public class TelaCadastroAluno extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jCB_Curso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 182, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jB_Salvar)
                     .addComponent(jB_Cancelar))
@@ -271,36 +266,36 @@ public class TelaCadastroAluno extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jB_SalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SalvarActionPerformed
-        String nome = jTF_Nome.getText();
-        String cpf = jTF_Cpf.getText();
-        String email = jTF_Email.getText();
+        nome = jTF_Nome.getText();
+        cpf = jTF_Cpf.getText();
+        email = jTF_Email.getText();
 
-        String genero = jRB_Feminino.isSelected() ? "Feminino" : "Masculino";
+        genero = jRB_Feminino.isSelected() ? "Feminino" : "Masculino";
         int dia = (int) jS_Dia.getValue();
         int mes = (int) jS_Mes.getValue();
         int ano = (int) jS_Ano.getValue();
-        LocalDate d = LocalDate.of(ano, mes, dia);
+        dataNascimento = LocalDate.of(ano, mes, dia);
 
-        String curso = jCB_Curso.getSelectedItem().toString();
+        curso = jCB_Curso.getSelectedItem().toString();
         System.out.println("nome: " + nome);
         System.out.println("CPF: " + cpf);
         System.out.println("email: " + email);
         System.out.println("genero: " + genero);
-        System.out.println("data nascimento: " + d);
+        System.out.println("data nascimento: " + dataNascimento);
         System.out.println("curso: " + curso);
-        
-        controleAluno.adicionarAluno(nome, cpf, email, genero, curso, d);
-        
+
+        if (!editar) {
+            controleAluno.adicionarAluno(nome, cpf, email, genero, curso, dataNascimento);
+        }else{
+            controleAluno.editarAluno(nome, cpf, email, genero, curso, dataNascimento);
+        }
+        controleAluno.getTelaListagem().setarDadosTabela();
         setVisible(false);
     }//GEN-LAST:event_jB_SalvarActionPerformed
 
     private void jB_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_CancelarActionPerformed
         setVisible(false);
     }//GEN-LAST:event_jB_CancelarActionPerformed
-
-    private void jTF_NomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTF_NomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTF_NomeActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -322,7 +317,6 @@ public class TelaCadastroAluno extends javax.swing.JFrame {
     private javax.swing.JSpinner jS_Ano;
     private javax.swing.JSpinner jS_Dia;
     private javax.swing.JSpinner jS_Mes;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTF_Cpf;
     private javax.swing.JTextField jTF_Email;
     private javax.swing.JTextField jTF_Nome;
