@@ -1,6 +1,6 @@
 package principal;
 
-import visao.ListaAlunos;
+import controle.ControleAluno;
 import visao.TelaPrincipal;
 
 
@@ -8,7 +8,8 @@ public class Main {
 
    
     public static void main(String[] args) {
-        TelaPrincipal tela = new TelaPrincipal();
+        ControleAluno controleAluno = new ControleAluno();
+        TelaPrincipal tela = new TelaPrincipal(controleAluno);
         tela.setVisible(true);
         
 //        ListaAlunos telaAlunos = new ListaAlunos();
