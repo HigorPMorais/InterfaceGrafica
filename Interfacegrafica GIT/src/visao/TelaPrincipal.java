@@ -75,6 +75,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jB_Docentes.setPreferredSize(new java.awt.Dimension(150, 100));
         jB_Docentes.setRequestFocusEnabled(false);
         jB_Docentes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jB_Docentes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jB_DocentesMouseClicked(evt);
+            }
+        });
 
         jMenu1.setText("Cadastros");
 
@@ -135,6 +140,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void jB_AlunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AlunosActionPerformed
         controlePrincipal.getControleAluno().abrirTelaListaAlunos();
     }//GEN-LAST:event_jB_AlunosActionPerformed
+
+    private void jB_DocentesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jB_DocentesMouseClicked
+        controlePrincipal.getControleDocente().abrirTelaListaDocente();
+    }//GEN-LAST:event_jB_DocentesMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
