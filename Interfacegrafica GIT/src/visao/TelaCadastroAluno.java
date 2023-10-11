@@ -1,5 +1,6 @@
 package visao;
 
+import controle.ControleAluno;
 import java.time.LocalDate;
 
 public class TelaCadastroAluno extends javax.swing.JFrame {
@@ -10,18 +11,20 @@ public class TelaCadastroAluno extends javax.swing.JFrame {
     private String genero;
     private String curso;
     private LocalDate dataNascimento;
+    private ControleAluno controleAluno;
 
-    public TelaCadastroAluno() {
+    public TelaCadastroAluno(ControleAluno controleAluno) {
         initComponents();
-
+        this.controleAluno = controleAluno;
+        
         buttonGroup1.add(jRB_Masculino);
         buttonGroup1.add(jRB_Feminino);
         buttonGroup1.clearSelection();
         setLocationRelativeTo(null);
     }
 
-    public TelaCadastroAluno(String nome, String cpf, String email, String curso, String genero, LocalDate dataNascimento) {
-        this();
+    public TelaCadastroAluno(ControleAluno controleAluno, String nome, String cpf, String email, String curso, String genero, LocalDate dataNascimento) {
+        this(controleAluno);
         this.nome = nome;
         this.cpf = cpf;
         this.email = email;
@@ -285,6 +288,9 @@ public class TelaCadastroAluno extends javax.swing.JFrame {
         System.out.println("genero: " + genero);
         System.out.println("data nascimento: " + d);
         System.out.println("curso: " + curso);
+        
+        controleAluno.adicionarAluno(nome, cpf, email, genero, curso, d);
+        
         setVisible(false);
     }//GEN-LAST:event_jB_SalvarActionPerformed
 

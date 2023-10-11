@@ -13,6 +13,16 @@ public class Aluno {
     public Aluno() {
     }
 
+    public Aluno(String nome, String cpf, String email, String genero, String curso, LocalDate dataNascimento) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.email = email;
+        this.genero = genero;
+        this.curso = curso;
+        this.dataNascimento = dataNascimento;
+    }
+
+    
     public String getNome() {
         return nome;
     }

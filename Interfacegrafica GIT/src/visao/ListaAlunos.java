@@ -1,8 +1,10 @@
 package visao;
 
+import controle.ControleAluno;
 import java.time.LocalDate;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
+import modelo.Aluno;
 
 /**
  *
@@ -10,28 +12,27 @@ import javax.swing.table.TableCellEditor;
  */
 public class ListaAlunos extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ListaAlunos
-     */
-    public ListaAlunos() {
+    private ControleAluno controleAluno;
+    
+    public ListaAlunos(ControleAluno controleAluno) {      
         initComponents();
         setLocationRelativeTo(null);
+        this.controleAluno = controleAluno;
         setarDadosTabela();
     }
 
     private void setarDadosTabela() {
-        String[][] dados = new String[2][4];
+        String[][] dados = new String[ controleAluno.getAlunos().size()][4];
         String[] colunas = new String[]{"Nome", "CPF", "E-mail", "Curso"};
 
-        dados[0][0] = "Andre";
-        dados[0][1] = "1234566";
-        dados[0][2] = "andre.luchesi@univel.br";
-        dados[0][3] = "TADS";
-
-        dados[1][0] = "Maria";
-        dados[1][1] = "99399499999";
-        dados[1][2] = "maria@univel.br";
-        dados[1][3] = "Direito";
+        int linha = 0;
+        for (Aluno aluno : controleAluno.getAlunos()) {
+            dados[linha][0] = aluno.getNome();
+            dados[linha][1] = aluno.getCpf();
+            dados[linha][2] = aluno.getEmail();
+            dados[linha][3] = aluno.getCurso();
+            linha++;
+        }
 
         DefaultTableModel model = new javax.swing.table.DefaultTableModel(
                 dados,
@@ -163,7 +164,7 @@ public class ListaAlunos extends javax.swing.JFrame {
             String email = jTableAlunos.getValueAt(linha, 2).toString();
             String curso = jTableAlunos.getValueAt(linha, 3).toString();
 
-            TelaCadastroAluno tela = new TelaCadastroAluno(nome, cpf, email, curso, "", LocalDate.now());
+            TelaCadastroAluno tela = new TelaCadastroAluno(controleAluno, nome, cpf, email, curso, "", LocalDate.now());
             tela.setVisible(true);
         }
     }//GEN-LAST:event_jTableAlunosMouseClicked
@@ -175,13 +176,13 @@ public class ListaAlunos extends javax.swing.JFrame {
         String email = jTableAlunos.getValueAt(linha, 2).toString();
         String curso = jTableAlunos.getValueAt(linha, 3).toString();
 
-        TelaCadastroAluno tela = new TelaCadastroAluno(nome, cpf, email, curso,  "", LocalDate.now());
+        TelaCadastroAluno tela = new TelaCadastroAluno(controleAluno, nome, cpf, email, curso,  "", LocalDate.now());
         tela.setVisible(true);
     }//GEN-LAST:event_jB_EditarActionPerformed
 
     private void jB_AdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AdicionarActionPerformed
         DefaultTableModel model = (DefaultTableModel) jTableAlunos.getModel();
-        TelaCadastroAluno tela = new TelaCadastroAluno();
+        TelaCadastroAluno tela = new TelaCadastroAluno(controleAluno);
         tela.setVisible(true);
         model.addRow(new Object[4]);
     }//GEN-LAST:event_jB_AdicionarActionPerformed

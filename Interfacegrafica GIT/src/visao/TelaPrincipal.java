@@ -1,6 +1,7 @@
 
 package visao;
 
+import controle.ControleAluno;
 import javax.swing.JOptionPane;
 
 /**
@@ -9,12 +10,12 @@ import javax.swing.JOptionPane;
  */
 public class TelaPrincipal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form TelaPrincipal
-     */
-    public TelaPrincipal() {
+    private ControleAluno controleAluno;
+            
+    public TelaPrincipal(ControleAluno controleAluno) {
         initComponents();
         setLocationRelativeTo(null);
+        this.controleAluno = controleAluno;
     }
 
     /**
@@ -128,7 +129,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
              JOptionPane.showMessageDialog(this, "Senha correta!",
                      "Login", JOptionPane.INFORMATION_MESSAGE );
              
-             ListaAlunos tela = new ListaAlunos();
+             ListaAlunos tela = new ListaAlunos(controleAluno);
              tela.setVisible(true);
              
         }else{
